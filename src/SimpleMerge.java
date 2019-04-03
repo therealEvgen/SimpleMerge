@@ -7,55 +7,35 @@
 public class SimpleMerge {
     public static int[] simpleMerge(int[] arr1, int[] arr2) {
         int[] arr3 = new int[arr1.length+arr2.length];
-        for(int i = 0; i<arr1.length; i++){
+
+        for (int i = 0; i < arr1.length; i++) {
             arr3[i] = arr1[i];
+            int x = 0;
+            for (int j = arr1.length; j < arr3.length; j++) {
+                arr3[j] = arr2[x];
+                x++;
+            }
         }
-        for(int i = arr1.length; i < arr1.length+arr2.length;i++) {
-            arr3[i] = arr2[i - arr1.length];
-        }
-        mergeSort(arr3);
+        bubbleSort(arr3);
         return arr3;
     }
-    public static void mergeSort(int[] arr){
-        int n = arr.length;
-        int[] temp = new int[n];
-        mergeSortHelper(arr,0,n-1,temp);
+    public static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
     }
-    public static void mergeSortHelper(int[] arr, int left, int right, int[] temp){
-        if(left<right){
-            int mid = (left+right)/2;
-            mergeSortHelper(arr,left,mid,temp);
-            mergeSortHelper(arr,mid+1,right,temp);
-            merge(arr,left,mid,right,temp);
-        }
-    }
-    public static void merge(int[] arr, int left, int mid, int right, int[] temp){
-        int i = left;
-        int j = mid + 1;
-        int k = left;
-        while (i <= mid && j <= right) {
-            if (arr[i] < arr[j]) {
-                temp[k] = arr[i];
-                i++;
+
+    public static void bubbleSort(int[] arr) {
+        int swaps = 1;
+        while (swaps!=0) {
+            swaps = 0;
+            for (int i = 0; i < arr.length-1; i++) {
+                if (arr[i] > arr[i+1]) {
+                    swap(arr, i, i+1);
+                    swaps++;
+                }
             }
-            else {
-                temp[k] = arr[j];
-                j++;
-            }
-            k++;
-        }
-        while (i <= mid){
-            temp[k] = arr[i];
-            i++;
-            k++;
-        }
-        while (j <= right){
-            temp[k] = arr[j];
-            j++;
-            k++;
-        }
-        for (k = left; k <= right; k++){
-            arr[k] = temp[k];
         }
     }
+
 }
